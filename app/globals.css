@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* Marca: naranja AgroFierros (misma paleta que la tienda) */
+  --color-marca-50: #FFF7ED;
+  --color-marca-100: #FFEDD5;
+  --color-marca-500: #F97316;
+  --color-marca-600: #EA580C;
+  --color-marca-700: #C2410C;
+
+  --radius-btn: 0.5rem;
+  --radius-card: 0.75rem;
+
+  --shadow-card: 0 1px 3px rgb(15 23 42 / 0.08), 0 4px 12px rgb(15 23 42 / 0.06);
+}
+
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}

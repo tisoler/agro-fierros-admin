@@ -1,0 +1,13 @@
+# Comandos Docker — agrofierros-admin
+# Igual que la tienda: build local + deploy en el VPS vía SSH.
+
+# --- Desarrollo local ---
+docker compose up --build -d
+docker compose down
+
+# --- Producción (build en el VPS, igual que la tienda) ---
+# Desde el VPS, en el directorio del repo del admin:
+docker compose -f docker-compose.yml up --build -d
+
+# Logs
+docker logs -f agrofierros-admin
