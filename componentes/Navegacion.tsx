@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cerrarSesion } from '@/acciones/auth';
@@ -7,6 +8,7 @@ import { cerrarSesion } from '@/acciones/auth';
 const enlaces = [
   { href: '/unidades', texto: 'Unidades' },
   { href: '/carrusel', texto: 'Carrusel home' },
+  { href: '/carruseles-unidades', texto: 'Carruseles' },
 ];
 
 export default function Navegacion() {
@@ -16,8 +18,9 @@ export default function Navegacion() {
     <header className="border-b border-slate-200 bg-white">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-3">
         <div className="flex items-center gap-6">
-          <Link href="/unidades" className="text-sm font-bold text-slate-900">
-            AgroFierros <span className="text-marca-600">Admin</span>
+          <Link href="/unidades" className="flex items-center gap-2">
+            <Image src="/logos/agrofierros-horizontal.svg" width={127} height={26} alt="AgroFierros" priority />
+            <span className="text-sm font-bold text-marca-600">Admin</span>
           </Link>
           <nav className="flex items-center gap-4">
             {enlaces.map((enlace) => {

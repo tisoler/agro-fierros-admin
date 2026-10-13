@@ -40,3 +40,16 @@ export const obtenerItemsCarrusel = async () => {
   await initCarruselHome();
   return CarruselHome.findAll({ order: [['orden', 'ASC'], ['id', 'ASC']] });
 };
+
+// Unidades de una sección del carrusel (oportunidades/novedades),
+// en el orden manual (sin orden van al final, por id como antes).
+export const obtenerCarruselUnidades = async (seccion: 'oportunidad' | 'novedad') => {
+  const sequelize = await initUnidad();
+  const flag = seccion === 'oportunidad' ? 'esOportunidad' : 'esNovedad';
+  const columna = seccion === 'oportunidad' ? 'ordenOportunidad' : 'ordenNovedad';
+  return Unidad.findAll({
+    where: { [flag]: true, activa: true },
+    attributes: ['id', 'titulo', 'imagenDestacadaUrl', 'imagenDestacadaTextoAlt', columna],
+    order: [[sequelize.fn('COALESCE', sequelize.col(columna), 999999), 'ASC'], ['id', 'ASC']],
+  });
+};

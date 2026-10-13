@@ -321,6 +321,37 @@ const sincronizarEspacio = async ({ slug, galeria, indiceDestacada, destacadaCam
   return filas;
 };
 
+// Guarda el orden manual de un carrusel de unidades (oportunidades/novedades).
+// Los ids llegan en el orden elegido (posición 0 = primera tarjeta).
+export const guardarOrdenCarrusel = async (
+  seccion: 'oportunidad' | 'novedad',
+  ids: number[]
+): Promise<{ error?: string }> => {
+  await requiereSesion();
+  if (!Array.isArray(ids) || !ids.length || ids.some((id) => !Number.isInteger(Number(id)))) {
+    return { error: 'La lista de unidades no es válida.' };
+  }
+  const columna = seccion === 'oportunidad' ? 'ordenOportunidad' : 'ordenNovedad';
+  const flag = seccion === 'oportunidad' ? 'esOportunidad' : 'esNovedad';
+
+  await initUnidad();
+  const sequelize = await DataBaseConnection.getSequelizeInstance();
+  try {
+    await sequelize.transaction(async (t) => {
+      for (let i = 0; i < ids.length; i++) {
+        await Unidad.update({ [columna]: i }, { where: { id: Number(ids[i]), [flag]: true }, transaction: t });
+      }
+    });
+  } catch (error) {
+    console.error('Error guardando el orden del carrusel:', error);
+    return { error: 'No se pudo guardar el orden. Intentá de nuevo.' };
+  }
+
+  await revalidarTienda(['unidades']);
+  revalidatePath('/carruseles-unidades');
+  return {};
+};
+
 // Toggle de flags desde el listado: activa, esOportunidad, esNovedad, vendida.
 export const cambiarFlagUnidad = async (id: number, campo: 'activa' | 'esOportunidad' | 'esNovedad' | 'vendida', valor: boolean) => {
   await requiereSesion();

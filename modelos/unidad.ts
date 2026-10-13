@@ -26,6 +26,9 @@ export class Unidad extends Model<
   // de la columna para no romper datos existentes.
   declare precioDolar: CreationOptional<number | null>;
   declare monedaPrecio: string;
+  // Orden manual en carruseles (NULL = al final, por id como antes)
+  declare ordenOportunidad: CreationOptional<number | null>;
+  declare ordenNovedad: CreationOptional<number | null>;
 }
 
 export const initUnidad = async (db?: Sequelize) => {
@@ -95,6 +98,14 @@ export const initUnidad = async (db?: Sequelize) => {
         type: DataTypes.STRING(3),
         allowNull: false,
         defaultValue: 'USD',
+      },
+      ordenOportunidad: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+      ordenNovedad: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
       },
     },
     {
