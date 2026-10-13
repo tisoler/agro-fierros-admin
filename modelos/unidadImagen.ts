@@ -10,6 +10,7 @@ export class UnidadImagen extends Model<
   declare urlMobile: string;
   declare urlMini: string;
   declare textoAlt: string;
+  declare orden: number;
   declare idUnidad: number;
 }
 
@@ -38,6 +39,11 @@ export const initUnidadImagen = async (db?: Sequelize) => {
       textoAlt: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+      orden: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
       },
       idUnidad: {
         type: DataTypes.NUMBER,

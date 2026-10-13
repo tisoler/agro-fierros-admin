@@ -22,7 +22,10 @@ export class Unidad extends Model<
   declare slug: string;
   declare activa: boolean;
   declare vendida: boolean;
+  // Monto en la moneda de monedaPrecio. Se conserva el nombre histórico
+  // de la columna para no romper datos existentes.
   declare precioDolar: CreationOptional<number | null>;
+  declare monedaPrecio: string;
 }
 
 export const initUnidad = async (db?: Sequelize) => {
@@ -87,6 +90,11 @@ export const initUnidad = async (db?: Sequelize) => {
       precioDolar: {
         type: DataTypes.INTEGER,
         allowNull: true,
+      },
+      monedaPrecio: {
+        type: DataTypes.STRING(3),
+        allowNull: false,
+        defaultValue: 'USD',
       },
     },
     {

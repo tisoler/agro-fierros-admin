@@ -26,7 +26,7 @@ export default async function EditarUnidadPage({ params }: { params: Promise<{ i
   const conRelaciones = unidad as typeof unidad & {
     marca?: { nombre: string };
     categorias?: { id: number }[];
-    imagenes?: { id: number; urlEscritorio: string; urlMobile: string; urlMini: string; textoAlt: string }[];
+    imagenes?: { id: number; urlEscritorio: string; urlMobile: string; urlMini: string; textoAlt: string; orden: number }[];
     detalles?: { id: number; detalle: string }[];
   };
 
@@ -42,15 +42,20 @@ export default async function EditarUnidadPage({ params }: { params: Promise<{ i
     activa: unidad.activa,
     vendida: unidad.vendida,
     precioDolar: unidad.precioDolar ?? null,
+    monedaPrecio: unidad.monedaPrecio ?? 'USD',
     imagenDestacadaUrl: unidad.imagenDestacadaUrl,
     imagenDestacadaTextoAlt: unidad.imagenDestacadaTextoAlt,
     idsCategorias: (conRelaciones.categorias ?? []).map((categoria) => categoria.id),
-    imagenes: (conRelaciones.imagenes ?? []).map((imagen) => ({
-      urlEscritorio: imagen.urlEscritorio,
-      urlMobile: imagen.urlMobile,
-      urlMini: imagen.urlMini,
-      textoAlt: imagen.textoAlt,
-    })),
+    imagenes: (conRelaciones.imagenes ?? [])
+      .slice()
+      .sort((a, b) => (a.orden ?? 0) - (b.orden ?? 0))
+      .map((imagen) => ({
+        urlEscritorio: imagen.urlEscritorio,
+        urlMobile: imagen.urlMobile,
+        urlMini: imagen.urlMini,
+        textoAlt: imagen.textoAlt,
+        orden: imagen.orden ?? 0,
+      })),
     detalles: (conRelaciones.detalles ?? []).map((detalle) => detalle.detalle),
   };
 
