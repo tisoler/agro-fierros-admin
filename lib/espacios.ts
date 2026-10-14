@@ -53,7 +53,11 @@ export const esWebp = (bytes: Uint8Array) =>
   bytes[0] === 0x52 && bytes[1] === 0x49 && bytes[2] === 0x46 && bytes[3] === 0x46 &&
   bytes[8] === 0x57 && bytes[9] === 0x45 && bytes[10] === 0x42 && bytes[11] === 0x50;
 
-export const subirImagen = async (clave: string, cuerpo: Uint8Array, tipo = 'image/webp', cache = 'public, max-age=31536000, immutable') => {
+// Derivados numerados: inmutables (nunca se modifican ni reutilizan nombres),
+// con el max-age de 30 días que usamos en el resto de recursos del Space.
+export const CACHE_DERIVADO = 'public, max-age=2592000';
+
+export const subirImagen = async (clave: string, cuerpo: Uint8Array, tipo = 'image/webp', cache = CACHE_DERIVADO) => {
   const { cliente, bucket } = leerConfigEspacios();
   await cliente.send(
     new PutObjectCommand({
