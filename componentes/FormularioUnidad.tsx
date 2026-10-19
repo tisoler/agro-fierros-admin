@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useActionState, useEffect, useRef, useState } from 'react';
 import { guardarUnidad } from '@/acciones/unidades';
 import EditorEncuadre from '@/componentes/EditorEncuadre';
+import ImagenesRedes from '@/componentes/ImagenesRedes';
 import {
   FOCO_CENTRO,
   FORMATOS,
@@ -52,7 +53,7 @@ type Props = {
   categorias: CategoriaOpcion[];
 };
 
-type ItemGaleria = {
+export type ItemGaleria = {
   clave: string;
   nuevo: boolean;
   // Conservada (ya está en el CDN)
@@ -642,6 +643,8 @@ export default function FormularioUnidad({ unidad, marcas, categorias }: Props) 
       </fieldset>
 
       {estado?.error && <p className="rounded-btn bg-red-50 px-3 py-2 text-sm text-red-700">{estado.error}</p>}
+
+      <ImagenesRedes galeria={galeria} idUnidad={unidad?.id} />
 
       <div className="flex items-center gap-3">
         <button
